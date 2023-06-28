@@ -15,7 +15,13 @@ public class Main {
         Common.print_list(Sigs.get_enabled_sigs());
         System.out.println();
 
-        SignatureReport.generateReport(3, "Dilithium5", "A message!".getBytes());
+        System.out.println("Report:");
+        int executionTimes = 10;
+        String message = "A message!";
+        String[] postQuantumAlgorithms = {"Dilithium5", "Falcon-1024", "SPHINCS+-SHAKE-256s-simple"};
+        for (String algorithm : postQuantumAlgorithms) {
+            System.out.println(SignatureReport.generateReport(executionTimes, algorithm, message.getBytes()));
+        }
 
     }
 }

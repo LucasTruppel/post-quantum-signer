@@ -1,34 +1,49 @@
 package br.ufsc.seguranca;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 public class SignatureReport {
 
-    public static void generateReport(int executionTimes, String signatureAlgorithm, byte[] message) {
+    public static HashMap<String, Long> generateReport(int executionTimes, String signatureAlgorithm, byte[] message) {
         List<Long> keyGenTime = new ArrayList<>();
         List<Long> signatureTime = new ArrayList<>();
         List<Long> verifyTime = new ArrayList<>();
+        HashMap<String,Long> reportInfo = new HashMap<>();
+
         for (int i = 0; i < executionTimes + 1; i ++) {
             PostQuantumSigner postQuantumSigner = new PostQuantumSigner(signatureAlgorithm);
             byte[][] keyPair = postQuantumSigner.generateKeyPair();
-            //System.out.println(keyPair[0].length + ", " + keyPair[1].length);
             byte[] signature = postQuantumSigner.sign(message);
-            //System.out.println(signature.length);
             postQuantumSigner.verify(message, signature);
 
-            long[] time = postQuantumSigner.getTimeResult();
-            keyGenTime.add(time[0]);
-            signatureTime.add(time[1]);
-            verifyTime.add(time[2]);
+            if (i == 1) {
+                reportInfo.put("publicKeySize", (long) keyPair[0].length);
+                reportInfo.put("privateKeySize", (long) keyPair[1].length);
+                reportInfo.put("signatureSize", (long) signature.length);
+            } else {
+                long[] time = postQuantumSigner.getTimeResult();
+                keyGenTime.add(time[0]);
+                signatureTime.add(time[1]);
+                verifyTime.add(time[2]);
+            }
         }
-        keyGenTime.remove(0);
-        System.out.println(keyGenTime);
-        float mean = SignatureReport.calculateMean(keyGenTime);
-        System.out.println(SignatureReport.calculateMean(keyGenTime));
-        System.out.println(SignatureReport.calculateStandardDeviation(keyGenTime, mean));
+
+        float meanKeyGenTime = SignatureReport.calculateMean(keyGenTime);
+        reportInfo.put("keyGenTimeMean", (long) meanKeyGenTime);
+        reportInfo.put("keyGenTimeStandardDeviation",
+                SignatureReport.calculateStandardDeviation(keyGenTime, meanKeyGenTime));
+
+        float meanSignatureTime = SignatureReport.calculateMean(signatureTime);
+        reportInfo.put("signatureTimeMean", (long) meanSignatureTime);
+        reportInfo.put("signatureTimeStandardDeviation",
+                SignatureReport.calculateStandardDeviation(signatureTime, meanSignatureTime));
+
+        float meanVerifyTime = SignatureReport.calculateMean(verifyTime);
+        reportInfo.put("verifyTimeMean", (long) meanVerifyTime);
+        reportInfo.put("verifyTimeStandardDeviation",
+                SignatureReport.calculateStandardDeviation(verifyTime, meanVerifyTime));
+
+        return reportInfo;
     }
 
     private static long calculateMean(List<Long> dataList) {
