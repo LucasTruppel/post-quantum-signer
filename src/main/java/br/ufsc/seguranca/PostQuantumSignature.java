@@ -1,14 +1,14 @@
 package br.ufsc.seguranca;
 
-import org.openquantumsafe.Common;
 import org.openquantumsafe.Signature;
-import org.openquantumsafe.Sigs;
 
 public class PostQuantumSignature {
 
     private final String signatureAlgorithm;
     private final Signature signer;
     private long timeKeyParGenration;
+    private long timeSignature;
+    private long timeVerify;
     private byte[] publicKey;
     private byte[] privateKey;
 
@@ -17,15 +17,42 @@ public class PostQuantumSignature {
         this.signer = new Signature(signatureAlgorithm);
     }
 
-    public void generateKeyPair() {
-        long t = System.currentTimeMillis();
+    public byte[][] generateKeyPair() {
+        long time = System.nanoTime();
         publicKey = signer.generate_keypair();
-        timeKeyParGenration = System.currentTimeMillis() - t;
+        timeKeyParGenration = System.nanoTime() - time;
         privateKey = signer.export_secret_key();
+        return new byte[][]{publicKey, privateKey};
     }
 
-    public void sing(byte[] message) {
-        // TODO
+    public byte[] sign(byte[] message) {
+        long time = System.nanoTime();
+        byte[] signature = signer.sign(message);
+        timeSignature = System.nanoTime() - time;
+        return signature;
+    }
+
+    public boolean verify(byte[] message, byte[] signature) {
+        long time = System.nanoTime();
+        boolean isValid = signer.verify(message, signature, publicKey);
+        timeVerify = System.nanoTime() - time;
+        return isValid;
+    }
+
+    public long[] getTimeResult() {
+        return new long[]{timeKeyParGenration, timeSignature, timeVerify};
+    }
+
+    public String getSignatureAlgorithm() {
+        return signatureAlgorithm;
+    }
+
+    public byte[] getPublicKey() {
+        return publicKey;
+    }
+
+    public byte[] getPrivateKey() {
+        return privateKey;
     }
 
 }
