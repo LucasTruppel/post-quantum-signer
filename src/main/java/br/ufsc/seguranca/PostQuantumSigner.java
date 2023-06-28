@@ -2,7 +2,7 @@ package br.ufsc.seguranca;
 
 import org.openquantumsafe.Signature;
 
-public class PostQuantumSignature {
+public class PostQuantumSigner {
 
     private final String signatureAlgorithm;
     private final Signature signer;
@@ -12,7 +12,7 @@ public class PostQuantumSignature {
     private byte[] publicKey;
     private byte[] privateKey;
 
-    public PostQuantumSignature(String signatureAlgorithm) {
+    public PostQuantumSigner(String signatureAlgorithm) {
         this.signatureAlgorithm = signatureAlgorithm;
         this.signer = new Signature(signatureAlgorithm);
     }
