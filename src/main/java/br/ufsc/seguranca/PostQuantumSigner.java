@@ -2,7 +2,7 @@ package br.ufsc.seguranca;
 
 import org.openquantumsafe.Signature;
 
-public class PostQuantumSigner {
+public class PostQuantumSigner implements Signer{
 
     private final String signatureAlgorithm;
     private final Signature signer;
@@ -17,6 +17,7 @@ public class PostQuantumSigner {
         this.signer = new Signature(signatureAlgorithm);
     }
 
+    @Override
     public byte[][] generateKeyPair() {
         long time = System.nanoTime();
         publicKey = signer.generate_keypair();
@@ -25,6 +26,7 @@ public class PostQuantumSigner {
         return new byte[][]{publicKey, privateKey};
     }
 
+    @Override
     public byte[] sign(byte[] message) {
         long time = System.nanoTime();
         byte[] signature = signer.sign(message);
@@ -32,6 +34,7 @@ public class PostQuantumSigner {
         return signature;
     }
 
+    @Override
     public boolean verify(byte[] message, byte[] signature) {
         long time = System.nanoTime();
         boolean isValid = signer.verify(message, signature, publicKey);
@@ -39,22 +42,24 @@ public class PostQuantumSigner {
         return isValid;
     }
 
+    @Override
     public long[] getTimeResult() {
         return new long[]{timeKeyParGenration, timeSignature, timeVerify};
     }
 
+    @Override
     public String getSignatureAlgorithm() {
         return signatureAlgorithm;
     }
 
+    @Override
     public byte[] getPublicKey() {
         return publicKey;
     }
 
+    @Override
     public byte[] getPrivateKey() {
         return privateKey;
     }
 
 }
-
-

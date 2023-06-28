@@ -11,17 +11,17 @@ public class SignatureReport {
         HashMap<String,Long> reportInfo = new HashMap<>();
 
         for (int i = 0; i < executionTimes + 1; i ++) {
-            PostQuantumSigner postQuantumSigner = new PostQuantumSigner(signatureAlgorithm);
-            byte[][] keyPair = postQuantumSigner.generateKeyPair();
-            byte[] signature = postQuantumSigner.sign(message);
-            postQuantumSigner.verify(message, signature);
+            Signer signer = new PostQuantumSigner(signatureAlgorithm);
+            byte[][] keyPair = signer.generateKeyPair();
+            byte[] signature = signer.sign(message);
+            signer.verify(message, signature);
 
             if (i == 0) {
                 reportInfo.put("publicKeySize", (long) keyPair[0].length);
                 reportInfo.put("privateKeySize", (long) keyPair[1].length);
                 reportInfo.put("signatureSize", (long) signature.length);
             } else {
-                long[] time = postQuantumSigner.getTimeResult();
+                long[] time = signer.getTimeResult();
                 keyGenTime.add(time[0]);
                 signatureTime.add(time[1]);
                 verifyTime.add(time[2]);
