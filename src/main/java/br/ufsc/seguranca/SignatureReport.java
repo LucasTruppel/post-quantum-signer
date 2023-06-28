@@ -16,7 +16,7 @@ public class SignatureReport {
             byte[] signature = postQuantumSigner.sign(message);
             postQuantumSigner.verify(message, signature);
 
-            if (i == 1) {
+            if (i == 0) {
                 reportInfo.put("publicKeySize", (long) keyPair[0].length);
                 reportInfo.put("privateKeySize", (long) keyPair[1].length);
                 reportInfo.put("signatureSize", (long) signature.length);
