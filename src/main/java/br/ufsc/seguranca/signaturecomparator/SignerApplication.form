@@ -109,7 +109,7 @@
         <properties>
           <font size="24"/>
           <horizontalAlignment value="2"/>
-          <text value="Signature algorithms comparer"/>
+          <text value="Signature algorithms comparator"/>
         </properties>
       </component>
       <component id="30306" class="javax.swing.JTextField" binding="messageToSign">
