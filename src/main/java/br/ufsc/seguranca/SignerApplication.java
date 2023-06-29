@@ -30,21 +30,24 @@ public class SignerApplication {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             String message = messageToSign.getText();
+
             int[] signatureTimes = {Integer.parseInt(rsaQuantity.getText()),
                                     Integer.parseInt(ecdsaQuantity.getText()),
                                     Integer.parseInt(dilithiumQuantity.getText()),
                                     Integer.parseInt(falconQuantity.getText()),
                                     Integer.parseInt(sphincsQuantity.getText())};
             String[] algorithms = {(String) rsaAlgorithmBox.getSelectedItem(),
+
                     (String) ecdsaAlgorithmBox.getSelectedItem(),
                     (String) dilithiumAlgorithmBox.getSelectedItem(),
                     (String) falconAlgorithmBox.getSelectedItem(),
                     ((String) sphincsAlgorithmBox.getSelectedItem()) + "-simple"};
+
             int[] keySize = {Integer.parseInt((String) rsaKeySize.getSelectedItem()),
                     Integer.parseInt((String) ecKeySize.getSelectedItem()), 0, 0, 0};
-            System.out.println(Arrays.toString(keySize));
+
             SignatureComparatorReport.compareSignatures(message, signatureTimes, algorithms, keySize);
-            JOptionPane.showMessageDialog(null, "Hello");
+            JOptionPane.showMessageDialog(null, "Report created in src/main/resources/report.xlsx");
         }
     });
 
