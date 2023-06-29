@@ -10,13 +10,14 @@ import java.util.List;
 
 
 public class SignatureComparatorReport {
-    public static void compareSignatures(String message, int[] signatureTimes) {
+    public static void compareSignatures(String message, int[] signatureTimes, String[] algorithms, int[] keySize) {
 
-        String[] algorithms = {"SHA256withRSA", "SHA256withECDSA", "Dilithium5", "Falcon-1024", "SPHINCS+-SHAKE-256s-simple"};
         List<HashMap<String,Long>> comparasionResults = new ArrayList<>();
 
         for (int i = 0; i < 5; i++) {
-            comparasionResults.add(SignatureReport.generateReport(signatureTimes[i], algorithms[i], message.getBytes()));
+            boolean isPostQuantum = (i >= 2);
+            comparasionResults.add(SignatureReport.generateReport(isPostQuantum, signatureTimes[i], algorithms[i],
+                    message.getBytes(), keySize[i]));
         }
 
         try {

@@ -1,5 +1,7 @@
 package br.ufsc.seguranca;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import java.security.*;
 
 public class ClassicalSigner implements Signer {
@@ -12,11 +14,12 @@ public class ClassicalSigner implements Signer {
     private long timeVerify;
 
 
-    public ClassicalSigner(String signatureAlgorithm) {
+    public ClassicalSigner(String signatureAlgorithm, int keySize) {
         this.signatureAlgorithm = signatureAlgorithm;
         String keyPairAlgorithm = (signatureAlgorithm.equals("SHA256withECDSA")) ? "EC" : "RSA";
         try {
-            keyPairGenerator = KeyPairGenerator.getInstance(keyPairAlgorithm);
+            keyPairGenerator = KeyPairGenerator.getInstance(keyPairAlgorithm, new BouncyCastleProvider());
+            keyPairGenerator.initialize(keySize);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
@@ -37,7 +40,7 @@ public class ClassicalSigner implements Signer {
     public byte[] sign(byte[] message) {
         byte[] signatureBytes;
         try {
-            Signature signature = Signature.getInstance(signatureAlgorithm);
+            Signature signature = Signature.getInstance(signatureAlgorithm, new BouncyCastleProvider());
             signature.initSign(keyPair.getPrivate());
             signature.update(message);
             long time = System.nanoTime();
