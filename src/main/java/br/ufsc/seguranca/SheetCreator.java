@@ -26,19 +26,19 @@ public class SheetCreator {
         CellStyle headerStyle = workbook.createCellStyle();
         headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
         headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        headerStyle.setBorderBottom(BorderStyle.MEDIUM);
+        headerStyle.setBorderLeft(BorderStyle.MEDIUM);
+        headerStyle.setBorderRight(BorderStyle.MEDIUM);
+        headerStyle.setBorderTop(BorderStyle.MEDIUM);
 
         XSSFFont font = workbook.createFont();
         font.setFontName("Arial");
         font.setFontHeightInPoints((short) 14);
-        font.setBold(true);
         headerStyle.setFont(font);
 
-        Cell headerCell;
-        for (int n = 0; n < sheetHeaders.length; n++) {
+        sheet.setColumnWidth(0, 9000);
+        for (int n = 1; n < sheetHeaders.length; n++) {
             sheet.setColumnWidth(n, 6000);
-            headerCell = header.createCell(n);
-            headerCell.setCellValue(sheetHeaders[n]);
-            headerCell.setCellStyle(headerStyle);
         }
 
         CellStyle style = workbook.createCellStyle();
@@ -46,20 +46,20 @@ public class SheetCreator {
 
         Row row;
         Cell cell;
-        HashMap<String,Long> signatureResults;
-        for (int k = 0; k < algorithms.length; k++) {
-            row = sheet.createRow(k+1);
+        for (int i = 0; i < sheetHeaders.length; i++) {
+            row = sheet.createRow(i);
             cell = row.createCell(0);
-            cell.setCellValue(algorithms[k]);
-            cell.setCellStyle(style);
-            cell = row.createCell(1);
-            cell.setCellValue((k < 2) ? "false" : "true");
-            cell.setCellStyle(style);
-
-            signatureResults = allResults.get(k);
-            for (int i = 2; i < sheetHeaders.length; i++) {
-                cell = row.createCell(i);
-                cell.setCellValue(signatureResults.get(sheetHeaders[i]));
+            cell.setCellValue(sheetHeaders[i]);
+            cell.setCellStyle(headerStyle);
+            for (int j = 1; j < algorithms.length + 1; j++) {
+                cell = row.createCell(j);
+                if (i == 0) {
+                    cell.setCellValue(algorithms[j-1]);
+                } else if (i == 1) {
+                    cell.setCellValue((j < 3) ? "false" : "true");
+                } else {
+                    cell.setCellValue(allResults.get(j-1).get(sheetHeaders[i]));
+                }
                 cell.setCellStyle(style);
             }
         }
