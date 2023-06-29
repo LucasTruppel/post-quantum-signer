@@ -24,6 +24,7 @@ public class SignatureReport {
             signer.verify(message, signature);
 
             if (i == 0) {
+                reportInfo.put("executionTimes", (long) executionTimes);
                 reportInfo.put("publicKeySize", (long) keyPair[0].length);
                 reportInfo.put("privateKeySize", (long) keyPair[1].length);
                 reportInfo.put("signatureSize", (long) signature.length);
