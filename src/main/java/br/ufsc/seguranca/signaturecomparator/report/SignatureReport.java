@@ -1,4 +1,8 @@
-package br.ufsc.seguranca;
+package br.ufsc.seguranca.signaturecomparator.report;
+
+import br.ufsc.seguranca.signaturecomparator.signature.ClassicalSigner;
+import br.ufsc.seguranca.signaturecomparator.signature.PostQuantumSigner;
+import br.ufsc.seguranca.signaturecomparator.signature.Signer;
 
 import java.util.*;
 

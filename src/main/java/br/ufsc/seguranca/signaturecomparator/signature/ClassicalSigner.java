@@ -1,4 +1,4 @@
-package br.ufsc.seguranca;
+package br.ufsc.seguranca.signaturecomparator.signature;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
@@ -12,7 +12,6 @@ public class ClassicalSigner implements Signer {
     private long timeKeyParGenration;
     private long timeSignature;
     private long timeVerify;
-
 
     public ClassicalSigner(String signatureAlgorithm, int keySize) {
         this.signatureAlgorithm = signatureAlgorithm;
@@ -88,4 +87,5 @@ public class ClassicalSigner implements Signer {
     public byte[] getPrivateKey() {
         return keyPair.getPrivate().getEncoded();
     }
+
 }

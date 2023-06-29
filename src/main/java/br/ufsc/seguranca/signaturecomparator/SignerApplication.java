@@ -1,9 +1,10 @@
-package br.ufsc.seguranca;
+package br.ufsc.seguranca.signaturecomparator;
+
+import br.ufsc.seguranca.signaturecomparator.report.SignatureComparatorReport;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 public class SignerApplication {
     private JButton compareButton;
@@ -16,9 +17,9 @@ public class SignerApplication {
     private JTextField messageToSign;
     private JComboBox rsaKeySize;
     private JComboBox ecKeySize;
-    private JComboBox comboBox3;
-    private JComboBox comboBox4;
-    private JComboBox comboBox5;
+    private JComboBox dilithiumKeySize;
+    private JComboBox falconKeySize;
+    private JComboBox sphincsKeySize;
     private JComboBox rsaAlgorithmBox;
     private JComboBox ecdsaAlgorithmBox;
     private JComboBox dilithiumAlgorithmBox;
@@ -60,6 +61,5 @@ public class SignerApplication {
         frame.pack();
         frame.setVisible(true);
     }
-
 
 }

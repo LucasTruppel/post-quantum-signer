@@ -1,8 +1,8 @@
-package br.ufsc.seguranca;
+package br.ufsc.seguranca.signaturecomparator.signature;
 
 import org.openquantumsafe.Signature;
 
-public class PostQuantumSigner implements Signer{
+public class PostQuantumSigner implements Signer {
 
     private final String signatureAlgorithm;
     private final Signature signer;

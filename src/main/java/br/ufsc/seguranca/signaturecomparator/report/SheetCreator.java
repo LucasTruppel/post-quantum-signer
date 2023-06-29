@@ -1,4 +1,4 @@
-package br.ufsc.seguranca;
+package br.ufsc.seguranca.signaturecomparator.report;
 
 
 import org.apache.poi.ss.usermodel.*;

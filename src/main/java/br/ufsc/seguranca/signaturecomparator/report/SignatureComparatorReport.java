@@ -1,7 +1,4 @@
-package br.ufsc.seguranca;
-
-import org.openquantumsafe.Common;
-import org.openquantumsafe.Sigs;
+package br.ufsc.seguranca.signaturecomparator.report;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,4 +24,5 @@ public class SignatureComparatorReport {
         }
 
     }
+
 }
