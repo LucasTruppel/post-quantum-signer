@@ -3,6 +3,7 @@ package br.ufsc.seguranca;
 import java.util.*;
 
 public class SignatureReport {
+    private static final String[] postQuantumAlgorithms = {"Dilithium5", "Falcon-1024", "SPHINCS+-SHAKE-256s-simple"};
 
     public static HashMap<String, Long> generateReport(int executionTimes, String signatureAlgorithm, byte[] message) {
         List<Long> keyGenTime = new ArrayList<>();
@@ -10,8 +11,14 @@ public class SignatureReport {
         List<Long> verifyTime = new ArrayList<>();
         HashMap<String,Long> reportInfo = new HashMap<>();
 
+        boolean isPostQuantum = Arrays.asList(postQuantumAlgorithms).contains(signatureAlgorithm);
         for (int i = 0; i < executionTimes + 1; i ++) {
-            Signer signer = new PostQuantumSigner(signatureAlgorithm);
+            Signer signer;
+            if (isPostQuantum) {
+                signer = new PostQuantumSigner(signatureAlgorithm);
+            } else {
+                signer = new ClassicalSigner(signatureAlgorithm);
+            }
             byte[][] keyPair = signer.generateKeyPair();
             byte[] signature = signer.sign(message);
             signer.verify(message, signature);
